@@ -1,0 +1,157 @@
+Gestão Automotiva — Conteúdo completo
+
+1. Objetivo do projeto
+Desenvolver um sistema web de gestão automotiva para oficina mecânica e lava-car, utilizando Node.js, PostgreSQL e React.
+
+2. Problema identificado
+Atualmente, as informações dos clientes, veículos e serviços ficam espalhadas em planilhas, cadernos e na memória dos funcionários. Isso dificulta consultar o histórico dos veículos e acompanhar os serviços realizados.
+
+3. Solução proposta
+Criar uma aplicação web que centralize:
+
+•	Cadastro de clientes (proprietários).
+•	Cadastro de veículos.
+•	Cadastro de ordens de serviço.
+•	Acompanhamento do andamento dos serviços.
+•	Autenticação dos funcionários.
+•	Dashboard com informações principais.
+
+4. Tecnologias utilizadas
+•	Node.js
+•	Express
+•	PostgreSQL
+•	React
+•	Axios
+•	bcrypt
+•	JWT
+•	pg ou Sequelize
+
+5. Perfis de usuários
+•	Admin: administra o sistema e os usuários.
+•	Atendente: cadastra clientes e veículos e registra serviços.
+•	Técnico: executa os serviços e atualiza o andamento.
+
+6. Entidades do banco de dados
+O sistema terá quatro tabelas:
+Usuários
+•	id
+•	nome
+•	email
+•	senha
+•	perfil
+Proprietários
+•	id
+•	nome
+•	email
+•	telefone
+•	cpf
+Veículos
+•	id
+•	marca
+•	modelo
+•	placa
+•	ano
+•	cor
+•	proprietarioId
+Ordens de serviço
+•	id
+•	dataEntrada
+•	descricao
+•	tipoServico
+•	valor
+•	status
+•	veiculoId
+
+7. Regras de negócio
+•	Senhas devem ser armazenadas com hash utilizando bcrypt.
+•	O CPF não deve aparecer nas listagens comuns.
+•	A placa do veículo deve ser única.
+•	Um veículo deve estar vinculado a um proprietário existente.
+•	Uma ordem de serviço deve estar vinculada a um veículo existente.
+•	O valor de uma ordem não pode ser negativo.
+•	O status deve aceitar apenas os valores permitidos.
+•	As rotas da API devem ser protegidas por JWT.
+
+8. Status das ordens de serviço
+•	aberto
+•	em_andamento
+•	concluído
+
+9. Endpoints da API
+Método	Endpoint	Função
+POST	/api/auth/login	Realizar login
+GET	/api/proprietarios	Listar proprietários
+POST	/api/proprietarios	Cadastrar proprietário
+GET	/api/veiculos	Listar veículos
+POST	/api/veiculos	Cadastrar veículo
+GET	/api/ordens-servico	Listar ordens
+POST	/api/ordens-servico	Criar ordem
+PATCH	/api/ordens-servico/:id/status	Atualizar status
+Todas as rotas, exceto login, exigem token JWT.
+
+10. Requisitos funcionais
+•	RF01: Permitir login e informar falha quando as credenciais forem inválidas.
+•	RF02: A sessão autenticada deve expirar após um período definido.
+•	RF03: Exibir o nome do usuário logado, navegação e opção de sair.
+•	RF04: Permitir pesquisar proprietários e atualizar a lista com os resultados.
+•	RF05: Permitir cadastrar veículos vinculados a um proprietário existente.
+•	RF06: Listar veículos apresentando seus respectivos proprietários.
+•	RF07: Permitir cadastrar ordens de serviço vinculadas a um veículo.
+•	RF08: Listar ordens de serviço com dados do veículo e do proprietário, ordenadas pela data.
+•	RF09: Permitir atualizar o status de uma ordem de serviço.
+•	RF10: Proteger dados pessoais e não expor segredos no código-fonte.
+•	RF11: Entregar script SQL com pelo menos três registros por tabela.
+•	RF12: Entregar documentação e DER compatíveis com o banco implementado.
+
+11. O que deve ser entregue
+•	Script SQL com as quatro tabelas e três registros por tabela.
+•	Seed executável com usuários, proprietários, veículos e ordens.
+•	Backend integrado ao PostgreSQL.
+•	Coleção de testes no Insomnia ou Postman.
+•	Frontend com login, dashboard e listagens consumindo a API.
+•	Documentação do projeto.
+•	DER (Diagrama Entidade-Relacionamento) compatível com o banco implementado.
+
+12. Critérios de aceitação
+•	Login válido retorna HTTP 200 com token JWT.
+•	Senha incorreta retorna HTTP 401.
+•	Rota protegida sem token retorna HTTP 401.
+•	Cadastro de proprietário retorna HTTP 201.
+•	Cadastro de veículo válido retorna HTTP 201.
+•	Placa repetida deve ser rejeitada.
+•	Proprietário inexistente deve ser rejeitado.
+•	Ordem de serviço criada retorna HTTP 201.
+•	Atualização de status retorna HTTP 200.
+•	Listagem de ordens exibe veículo e proprietário relacionados.
+•	Executar o seed novamente não deve duplicar registros.
+•	Frontend deve mostrar carregamento, dados e mensagens de erro.
+
+13. Ordem recomendada de desenvolvimento
+1.	Entender o problema e preencher a documentação.
+2.	Criar o banco e as quatro tabelas no PostgreSQL.
+3.	Escolher a estratégia de persistência: pg ou Sequelize.
+4.	Configurar a conexão e testar a comunicação.
+5.	Implementar consultas parametrizadas ou Models.
+6.	Implementar cadastro de usuários, bcrypt, login e JWT.
+7.	Criar controllers e rotas de cada entidade.
+8.	Criar e executar o seed com dados de demonstração.
+9.	Testar os endpoints com Insomnia ou Postman.
+10.	Criar o frontend React e configurar o Axios.
+11.	Implementar login, dashboard e listagens.
+
+14. Arquitetura do sistema
+O projeto será dividido em quatro camadas:
+•	Frontend: React + Axios.
+•	Backend: Node.js + Express.
+•	Persistência: pg ou Sequelize.
+•	Banco de dados: PostgreSQL.
+
+15. Observações importantes
+•	Modelar antes de codificar.
+•	Escolher apenas uma estratégia de persistência.
+•	Testar cada endpoint antes de desenvolver a tela correspondente.
+•	Utilizar consultas parametrizadas.
+•	Não armazenar senhas em texto puro.
+•	Não utilizar sync({ force: true }) em produção.
+•	Manter a documentação e o DER compatíveis com o banco implementado.
+¬
